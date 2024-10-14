@@ -111,7 +111,7 @@ function gameLoop(){//gameLoop//////////////////////////////////////////////////
     impactarProta();
    // aparecerEnemigo();
     //enemigoHuye();
-    jefe = new Jefe()
+    jefe = new Jefe(proyectilesEnemigo,prota,'jefeQuieto','enemigoEstar','enemigoCorrer','muerteEnemigo')
     crearAumentoPoder();
     if (prota.estaVivo()) {
         // Ejecuta la función cada 16.67ms (60 veces por segundo) para lograr 60 FPS
