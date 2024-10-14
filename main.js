@@ -35,6 +35,8 @@ const tiempoFinal= document.getElementById('tiempoFinal');
 const enemigosMatados = document.getElementById('enemigosMatados');
 const btnVolverInicio = document.getElementById('volverInicio');
 let contadorMatados=0;
+let jefe;
+let proyectilesJefe;
 // Manejar eventos de tecla presionada (keydown)
 btnIniciar.addEventListener('click',iniciarJuego)
 btnReintentar.addEventListener('click',()=>{iniciarJuego()})
@@ -78,7 +80,7 @@ function aparecerEnemigo(){
     if(coolddownEnemigo){
         let cont =dificultad;
     while(cont>0){
-        let enemigo = new Enemigo(proyectilesEnemigo,prota);
+        let enemigo = new Enemigo(proyectilesEnemigo,prota,'jefeQuieto','enemigoEstar','enemigoCorrer','muerteEnemigo');
         enemigos.push(enemigo);
         cont--;
     }
@@ -107,8 +109,9 @@ function gameLoop(){//gameLoop//////////////////////////////////////////////////
     
     impactoProta()
     impactarProta();
-    aparecerEnemigo();
-    enemigoHuye();
+   // aparecerEnemigo();
+    //enemigoHuye();
+    jefe = new Jefe()
     crearAumentoPoder();
     if (prota.estaVivo()) {
         // Ejecuta la función cada 16.67ms (60 veces por segundo) para lograr 60 FPS
@@ -265,6 +268,8 @@ function asignarValoresIniciales(){
     protaDaniado= false;
     proyectilesProta=[];
     proyectilesEnemigo=[];
+    proyectilesJefe = [];
+    jefe = null;
     teclasPresionadas = {};
     coolddownEnemigo = false;
     cooldownDisparo=false;

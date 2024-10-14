@@ -8,21 +8,30 @@ class Enemigo{
     proyectiles;
     accionActiva = null;
     posProta;
-    constructor(proyectiles,prota){
+    spryteQuieto;
+    spryteMovimiento;
+    spryteAtaque;
+    spryteMuerto;
+    spryteEnemigo;
+    constructor(proyectiles,prota,spryteEnemigo,spryteQuieto,spryteMovimiento,spryteMuerto){
+        this.spryteEnemigo = spryteEnemigo;
+        this.spryteQuieto=spryteQuieto;
+        this.spryteMovimiento = spryteMovimiento;
+        this.spryteMuerto = spryteMuerto;
         this.prota = prota;
-        this.posProta=prota.prota.getBoundingClientRect();
+        this.posProta=prota.estado();
         this.proyectiles = proyectiles;
         this.pantalla = document.getElementById('contenedor');
         this.dimencionesPantalla = this.pantalla.getBoundingClientRect()
         
         this.aparecer()
-        this.atacar();
+        //this.atacar();
     }
 
     aparecer(){
         this.enemigo = document.createElement("div")
-        this.enemigo.classList.add('enemigo');
-        this.enemigo.classList.add('enemigoEstar');
+        this.enemigo.classList.add(this.spryteEnemigo);
+        this.enemigo.classList.add(this.spryteQuieto);
         this.pantalla.appendChild(this.enemigo);
         this.enemigo.style.left =this.dimencionesPantalla.width -70 + 'px';
         this.enemigo.style.top = Math.floor(Math.random() * 600)  + 200 + 'px';
@@ -48,7 +57,7 @@ class Enemigo{
         
             this.detenerAccion()
         
-        this.enemigo.classList.add('muerteEnemigo');
+        this.enemigo.classList.add(this.spryteMuerto);
     }
     comportamiento(){
         
@@ -66,7 +75,7 @@ class Enemigo{
             if(this.enemigo.parentNode === this.pantalla){
             this.accionActiva = setTimeout(() => {
                 this.atacar();
-                this.enemigo.classList.replace('enemigoCorrer', 'enemigoEstar'); // Cambia al estado quieto tras atacar
+                this.enemigo.classList.replace(this.spryteMovimiento, this.spryteQuieto); // Cambia al estado quieto tras atacar
                 this.accionActiva = setTimeout(() => {
                     // Después de esperar un poco, vuelve a moverse y repite el ciclo
                     
@@ -92,14 +101,14 @@ class Enemigo{
         this.accionActiva = setTimeout(()=>{
             
             
-            this.enemigo.classList.replace('enemigoEstar', 'enemigoCorrer');
+            this.enemigo.classList.replace(this.spryteQuieto, this.spryteMovimiento);
             
             this.enemigo.style.left = this.enemigo.offsetLeft - 300 +'px';
             
         },300)
 
         this.enemigo.addEventListener('animationend',()=>{
-            this.enemigo.classList.replace('enemigoCorrer','enemigoEstar')
+            this.enemigo.classList.replace(this.spryteMovimiento,this.spryteQuieto)
             this.comportamiento();
             })
     }
@@ -120,7 +129,7 @@ class Enemigo{
         if(this.accionActiva){
         clearTimeout(this.accionActiva);
         }
-        this.enemigo.classList.remove('enemigoCorrer', 'enemigoEstar');
+        this.enemigo.classList.remove(this.spryteMovimiento, this.spryteQuieto);
     }
     
 }
