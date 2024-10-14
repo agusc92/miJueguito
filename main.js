@@ -146,11 +146,11 @@ function impactoProta() {
 
 function eliminarEnemigo(index) {
     let en = enemigos[index];
-    if (en && en.enemigo) {
-        if (en.enemigo.parentNode === pantalla) {
+    if (en && en.obtenerElemento()) {
+        if (en.obtenerElemento().parentNode === pantalla) {
             
             en.enemigo.addEventListener('animationend',()=>{
-                pantalla.removeChild(en.enemigo);
+                pantalla.removeChild(en.obtenerElemento());
             })
             
         }
@@ -160,9 +160,9 @@ function eliminarEnemigo(index) {
 }
 function eliminarProyectil(index) {
     let pr = proyectilesProta[index];
-    if (pr && pr.proyectil) {
-        if (pr.proyectil.parentNode === pantalla) {
-            pantalla.removeChild(pr.proyectil);
+    if (pr && pr.obtenerElemento()) {
+        if (pr.obtenerElemento().parentNode === pantalla) {
+            pantalla.removeChild(pr.obtenerElemento());
         }
         proyectilesProta.splice(index, 1);
     }
@@ -171,14 +171,14 @@ function eliminarProyectil(index) {
 function enemigoHuye(){
     for (let i = enemigos.length - 1; i >= 0; i--) {
         let en = enemigos[i];
-        en.setPosProta(prota.prota.getBoundingClientRect());
+        en.setPosProta(prota.estado());
         if (en) {
-            let enemigoPosition = en.enemigo.getBoundingClientRect().left;
+            let enemigoPosition = en.estado().left;
 
             // Eliminar enemigo si está fuera de la pantalla
             if (enemigoPosition <= 0) {
-                if (en.enemigo && en.enemigo.parentNode === pantalla) {
-                    pantalla.removeChild(en.enemigo);
+                if (en.obtenerElemento() && en.obtenerElemento().parentNode === pantalla) {
+                    pantalla.removeChild(en.obtenerElemento());
                 }
                 enemigos.splice(i, 1);
             }
@@ -199,14 +199,14 @@ function eliminarProyectilProta(){
             let pr = proyectilesProta[i];
             
             // Verificamos si el proyectil existe y si ha salido de la pantalla
-            if (pr && pr.proyectil) {
-                let proyectilPosition = pr.proyectil.getBoundingClientRect().left;
+            if (pr && pr.obtenerElemento()) {
+                let proyectilPosition = pr.estado().left;
 
                 // Si el proyectil ha salido del área visible (derecha) o está en el borde izquierdo
                 if (proyectilPosition >= pantalla.offsetWidth || proyectilPosition <= 0) {
                     // Elimina el proyectil del DOM y del array
-                    if (pr.proyectil.parentNode === pantalla) {
-                        pantalla.removeChild(pr.proyectil);
+                    if (pr.obtenerElemento().parentNode === pantalla) {
+                        pantalla.removeChild(pr.obtenerElemento());
                     }
                     proyectilesProta.splice(i, 1);
                 }
@@ -272,7 +272,7 @@ function asignarValoresIniciales(){
     dificultad = 1;
     cooldownAumentoPoder = false;
     prota = new Protagonista(document.getElementById('personaje')) ;
-    prota.prota.classList.add('mover')
+    prota.obtenerElemento().classList.add('mover')
     animacionProta = document.getElementById('animacionPersonaje');
     posicionActualX = prota.offsetLeft;
     posicionActualY = prota.offsetTop;
@@ -302,8 +302,8 @@ function derrota(){
 function limpiarEscenario() {
     // Limpiar proyectiles del protagonista
     proyectilesProta.forEach(pr => {
-        if (pr.proyectil && pr.proyectil.parentNode === pantalla) {
-            pantalla.removeChild(pr.proyectil);
+        if (pr.obtenerElemento() && pr.obtenerElemento().parentNode === pantalla) {
+            pantalla.removeChild(pr.obtenerElemento());
         }
     });
     proyectilesProta = [];
@@ -318,8 +318,8 @@ function limpiarEscenario() {
 
     // Limpiar enemigos
     enemigos.forEach(en => {
-        if (en.enemigo && en.enemigo.parentNode === pantalla) {
-            pantalla.removeChild(en.enemigo);
+        if (en.obtenerElemento() && en.obtenerElemento().parentNode === pantalla) {
+            pantalla.removeChild(en.obtenerElemento());
         }
     });
     enemigos = [];

@@ -5,6 +5,7 @@ class Protagonista{
     posicionActualX ;
     posicionActualY ;
     poderAumentado;
+    daniado = false;
     constructor(elementoProta){
         this.proyectiles = [];
         this.pantalla = document.getElementById('contenedor');
@@ -14,6 +15,7 @@ class Protagonista{
 
         this.prota.classList.remove('morirProta');
         this.prota.classList.add('mover');
+        
         this.poderAumentado = false;
     }
 
@@ -67,11 +69,21 @@ class Protagonista{
         return arProyectiles;
     }
 
-    hacerDanio(danio){
-        this.vida -=danio;
+    recibirDanio(danio){
+        if(this.daniado){
+
+        }else{
+            this.prota.classList.add('daniado');
+            this.daniado = true;
+            this.vida -=danio;
         if(this.vida<=0){
             this.morir();
         }
+        setTimeout(()=>{this.daniado = false;
+            this.prota.classList.remove('daniado');
+        },1500);
+        }
+        
     }
     morir(){
         this.prota.classList.remove('atacar','mover');
@@ -85,7 +97,13 @@ class Protagonista{
     }
 
     aumentarPoder(){
+        this.prota.classList.add('poderAumentado');
         this.poderAumentado = true;
-        setTimeout(()=>{this.poderAumentado = false},4000)
+        setTimeout(()=>{this.poderAumentado = false
+            this.prota.classList.remove('poderAumentado');
+        },4000)
+    }
+    obtenerElemento(){
+        return this.prota;
     }
 }

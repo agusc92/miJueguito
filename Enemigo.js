@@ -16,6 +16,7 @@ class Enemigo{
         this.dimencionesPantalla = this.pantalla.getBoundingClientRect()
         
         this.aparecer()
+        this.atacar();
     }
 
     aparecer(){
@@ -28,7 +29,8 @@ class Enemigo{
         
         
         this.comportamiento()
-        this.atacar();
+        
+        
     }
     recibirDanio(daño){
         this.vida -=daño;
@@ -69,7 +71,7 @@ class Enemigo{
                     // Después de esperar un poco, vuelve a moverse y repite el ciclo
                     
                         this.comportamiento();
-                }, 1000); // Enemigo se queda quieto por 1 segundo (puedes cambiar el tiempo)
+                }, 1000); // Enemigo se queda quieto por 1 segundo 
             }, 2000); // Ataque después de avanzar por 2 segundos
             }
         
@@ -103,14 +105,16 @@ class Enemigo{
     }
     atacar(){
       if(!this.estaMuerto()){
-        new proyectilEnemigo(this.estado(),"proyectilEnemigo",20,-100,1,this.proyectiles,this.prota,this.prota.prota.getBoundingClientRect());
-        new proyectilEnemigo(this.estado(),"proyectilEnemigo",20,-10,1,this.proyectiles,this.prota,this.prota.prota.getBoundingClientRect());
+        new proyectilEnemigo(this.estado(),"proyectilEnemigo",20,-100,1,this.proyectiles,this.prota,this.prota.estado());
+        new proyectilEnemigo(this.estado(),"proyectilEnemigo",20,-10,1,this.proyectiles,this.prota,this.prota.estado());
         
         
         
       }
     }
-
+    obtenerElemento(){
+        return this.enemigo;
+    }
     detenerAccion(){
         
         if(this.accionActiva){

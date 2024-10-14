@@ -254,70 +254,7 @@ body {
         left: 0px; /* Punto final */
     }
 }
-/* .finDelJuego{
-    position: absolute;
-    background-color: rgb(43, 40, 40);
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-}
-.puntajeFinal{
-    position: absolute;
-    top: 100px;
-    left: 300px;
-    color: white;
-    border: 2px solid white ;
-    border-radius: 20px;
-    font-size: 25px;
-    padding: 10px;
-}
 
-.tiempoFinal{
-    position: absolute;
-    top: 180px;
-    left: 300px;
-    color: white;
-    border: 2px solid white ;
-    border-radius: 20px;
-    font-size: 25px;
-    padding: 10px;
-}
-
-.reintentar{
-    cursor: pointer;
-    color: white;
-    background-color: rgb(43, 40, 40);
-    position: absolute;
-    top: 320px;
-    left: 300px;
-    font-size: 25px;
-    padding: 10px;
-    border: 3px solid white;
-    border-radius: 15px;
-}
-.volverInicio{
-    cursor: pointer;
-    color: white;
-    font-size: 25px;
-    position: absolute;
-    top: 320px;
-    left: 500px;
-    background-color: rgb(43, 40, 40);
-    padding: 10px;
-    border: 3px solid white;
-    border-radius: 15px;
-}
-
-.enemigosMatados{
-    position: absolute;
-    top: 240px;
-    left: 300px;
-    color: white;
-    border: 2px solid white ;
-    border-radius: 20px;
-    font-size: 25px;
-    padding: 10px;
-} */
 .finDelJuego {
     position: absolute;
     background-color: rgba(43, 40, 40, 0.9);
@@ -367,87 +304,13 @@ body {
     color: rgb(43, 40, 40);
     transform: scale(1.05);
 }
-/*
+
 .pantallaInicio {
+    background: url("fondo/agua.png") repeat-x;
+    animation: sky 35s linear infinite;
     background-color: #2b2828;
     position: absolute;
-    width: 100%;
-    height: 100%;
-    
-    flex-direction: column;
-    align-items: center;
-    
-    z-index: 2;
-    color: white;
-    font-family: 'Arial', sans-serif;
-}
-
-.bienvenidos, .superNave {
-    top :10px;
-    left: 50%;
-    position: absolute;
-    margin: 20px;
-    padding: 15px 30px;
-    border: 2px solid white;
-    border-radius: 15px;
-    text-align: center;
-    font-size: 2rem;
-    background-color: rgba(0, 0, 0, 0.6);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: translate(-50%);
-}
-
-.superNave {
-    top: 100px;
-    font-size: 2.5rem;
-    font-weight: bold;
-}
-
-.botonIniciar {
-    position: absolute;
-    top : 250px;
-    left: 50%;
-    padding: 15px 40px;
-    font-size: 1.5rem;
-    color: white;
-    background-color: #2b2828;
-    border: 2px solid white;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    transform: translate(-50%);
-}
-
-.botonIniciar:hover {
-    background-color: white;
-    color: #2b2828;
-    
-}
-
-.instrucciones {
-    position: absolute;
-    top: 350px;
-    left: 50%;
-    transform: translate(-50%);
-    margin: 20px;
-    padding: 15px 30px;
-    border: 2px solid white;
-    border-radius: 15px;
-    text-align: center;
-    font-size: 1.2rem;
-    background-color: rgba(0, 0, 0, 0.6);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: white;
-    width: 300px;
-}
-
-.instrucciones span {
-    display: block;
-    margin: 5px 0;
-}*/
-.pantallaInicio {
-    background-color: #2b2828;
-    position: absolute;
+    background-size: 1280px 100%;
     width: 100%;
     height: 100%;
     z-index: 2;
@@ -546,4 +409,20 @@ body {
 @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
+}
+.poderAumentado{
+    filter: drop-shadow(0 0 20px rgba(0, 255, 0, 0.8));
+}
+@keyframes daniado {
+    0% {
+        background-position: 0
+    }
+
+    100% {
+        background-position: -1728px
+    }
+}
+.daniado{
+    background: url("personajes/daniado.png");
+    animation: daniado .1.5s steps(9) 1 ;
 }

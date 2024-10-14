@@ -56,7 +56,7 @@ class proyectilEnemigo extends Proyectil{
 
     impacta(){
         const rectProyectil = this.proyectil.getBoundingClientRect();
-        const rectProta = this.prota.prota.getBoundingClientRect();
+        const rectProta = this.prota.estado();
 
     // Comparar las posiciones para detectar colisión
         if (
@@ -65,7 +65,7 @@ class proyectilEnemigo extends Proyectil{
             rectProyectil.top < rectProta.bottom -80&&
             rectProyectil.bottom > rectProta.top +80
         ) {
-            this.prota.hacerDanio(this.danio);
+            this.prota.recibirDanio(this.danio);
             
            this.eliminarProyectil()
         

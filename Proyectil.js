@@ -37,4 +37,7 @@ class Proyectil{
     estado(){
         return this.proyectil.getBoundingClientRect()
     }
+    obtenerElemento(){
+        return this.proyectil;
+    }
 }
