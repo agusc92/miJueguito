@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="juego">
+       
+        <div id="finDelJuego">
+        <div  class="finDelJuego">
+            <h2>Fin del Juego</h2>
+            <div id="puntajeFinal" class="puntajeFinal"></div>
+            <div id="tiempoFinal" class="tiempoFinal"></div>
+            <div id="enemigosMatados" class="enemigosMatados"></div>
+            <button id="reintentar" class="reintentar">Reintentar</button>
+            <button id="volverInicio" class="volverInicio">Volver a la pantalla de inicio</button>
+        </div>
+        </div>
+        <div id="contenedor" class="">
+            <div id="cronometro" class="cronometro" ></div>
+            <div id="vidas" class="cronometro vidas"></div>
+            <div id="puntaje" class="cronometro puntaje"></div>
+            <div id="fondo"></div>
+            <div id="tiburon"></div>
+            <div id="minas"></div>
+            <div id="piedras"></div>
+            <div id="personaje" class="personaje "></div>
+        
+        </div>
+           
+        
+        <div id="pantallaInicio">
+        <div  class="pantallaInicio">
+            <div class="bienvenidos">¡Bienvenidos a!</div>
+            <div class="superNave">Super Navecita</div>
+            <button id="iniciar" class="botonIniciar">Iniciar Partida</button>
+            
+            <!-- Sección de Instrucciones Mejorada -->
+            <div class="instrucciones">
+                <h3>Controles</h3>
+                <!-- Simulación de las teclas WASD en la disposición de un teclado -->
+                <div class="teclado">
+                    <span></span> <!-- espacio vacío para simular el espacio entre teclas -->
+                    <span class="tecla">W</span>
+                    <span></span>
+                    <span class="tecla">A</span>
+                    <span class="tecla">S</span>
+                    <span class="tecla">D</span>
+                </div>
+                <div>
+                    <span class="tecla espaciadora">Espaciadora</span> para disparar
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+    <script src="aumentoPoder.js"></script>
+    <script src="personaje.js"></script>
+    <script src="Protagonista.js"></script>
+    <script src="Enemigo.js"></script>
+    <script src="Proyectil.js"></script>
+    <script src="ProyectilEnemigo.js"></script>
+    <script src="ProyectilProtagonista.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

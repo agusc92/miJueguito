@@ -1,0 +1,549 @@
+body {
+    margin: 0;
+    max-height: 100%;
+    overflow-y: hidden; 
+    overflow-x: hidden;
+}
+
+.displayNone{
+    display: none;
+}
+.displayBlock{
+    display: block;
+}
+#juego{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+#contenedor{
+   
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden; 
+    overflow-x: hidden;
+}
+#fondo{
+    height: 1000px;
+    width: 100%;
+    background: url("fondo/agua.png") repeat-x;
+    background-size: 1280px 100%;
+    position: absolute;
+    animation: sky 35s linear infinite;
+}
+#tiburon{
+    height: 500px;
+    width: 100%;
+    background: url("fondo/tiburon.png") repeat-x;
+    background-size: 1280px 100%;
+    position: absolute;
+    animation: tibu 15s linear infinite;
+    bottom: 80px;
+    transform: scaleX(-1);
+}
+#minas{
+    height: 500px;
+    width: 100%;
+    background: url("fondo/minas.png") repeat-x;
+    background-size: 1280px 100%;
+    position: absolute;
+    animation: sky 20s linear infinite;
+    bottom: 50px;
+}
+
+#piedras{
+    height: 1000px;
+    width: 100%;
+    background: url("fondo/piedras.png") repeat-x;
+    background-size: 1280px 100%;
+    position: absolute;
+    animation: sky 15s linear infinite;
+}
+
+@keyframes tibu {
+    0% {
+        background-position: 1280px
+    }
+
+    100% {
+        background-position: 0
+    }
+}
+
+@keyframes sky {
+    0% {
+        background-position: 1280px
+    }
+
+    100% {
+        background-position: 0
+    }
+}
+.personaje {
+    
+    width: 192px;
+    height: 192px;
+    z-index: 1;
+    position: absolute;
+    bottom: 18%;
+    left: 100px;
+    
+    transition: top ;
+}
+
+.mover{
+    background: url("personajes/Move.png") repeat-x;
+    animation: mover .6s steps(6) infinite;
+}
+
+.atacar{
+    background: url("personajes/Attack.png");
+    animation: atacar .2s steps(4) 1 ;
+}
+
+@keyframes atacar{
+    0%{
+        background-position: 0
+    }
+    100% {
+        background-position: -768px
+    }
+}
+
+@keyframes mover {
+    0% {
+        background-position: 0
+    }
+
+    100% {
+        background-position: -1152px
+    }
+}
+
+.proyectil{
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    background: url("personajes/proyectil.png");
+    transition: left 2s linear,top 2s linear;
+}
+
+.cronometro{
+    color: white;
+    position: absolute;
+    font-size: 30px;
+    
+    background-color: rgb(0, 0, 0,0.5);
+    top: 10px;
+    left: 050vw;
+    border: 2px solid black;
+    z-index: 1;
+
+}
+.vidas{
+    
+    left: 10vw;
+}
+.puntaje{
+    left: 80vw;
+}
+.moverArriba{
+    top: 200px
+}
+.proyectilEnemigo{
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    background: url("personajes/proyectilEnemigo.png");
+    transition: left linear , top linear;
+    
+    transform: scale(0.7);
+    
+}
+.enemigo{
+    width: 48px;
+    height: 48px;
+    z-index: 1;
+    position: absolute;
+    
+    transform: scaleX(-1) scale(2);
+    transition: left 2s ease;
+}
+.enemigoEstar{
+    background: url("personajes/enemigo.png");
+    animation: estar .4s steps(4) infinite;
+}
+@keyframes estar {
+    0% {
+        background-position: 0
+    }
+
+    100% {
+        background-position: -192px
+    }
+}
+.enemigoCorrer{
+    background: url("personajes/enemigoCorrer.png");
+    animation: enemigoCorrer 2s steps(6) 1;
+}
+
+@keyframes enemigoCorrer {
+    0% {
+        background-position: 0
+    }
+
+    100% {
+        background-position: -288px
+    }
+}
+
+.muerteEnemigo{
+    background: url("personajes/muerteEnemigo.png");
+    animation: muerteEnemigo 1s steps(6) 1;
+}
+@keyframes muerteEnemigo {
+    0%{
+        background-position: 0
+    }
+    100% {
+        background-position: -288px
+    }
+}
+
+.morirProta{
+    background: url("personajes/protaMuerto.png");
+    animation: morirProta 4s steps(15) 1;
+}
+
+@keyframes morirProta {
+    0%{
+        background-position: 0
+    }
+    100% {
+        background-position: -2880px
+    }
+}
+.aumentoPoder{
+    position: absolute;
+    background: url("personajes/powerMunicion.png");
+    width: 128px;
+    height: 128px;
+    
+    background-color: rgba(93, 255, 43, 0.425);
+    border-radius: 50px;
+    animation: moverIzq 3s  linear ,oscilarVertical 8s  ease-in-out;
+    
+}
+@keyframes oscilarVertical {
+    0% {
+        transform: scale(0.45) translateY(0);  /* Punto de partida */
+    }
+    25% {
+        transform: scale(0.45) translateY(700px);  /* Punto más bajo */
+    }
+    50% {
+        transform: scale(0.45) translateY(0px);  /* Punto más bajo */
+    }
+    100% {
+        transform: scale(0.45) translateY(-1400);  /* Vuelve al punto de partida */
+    }
+}
+@keyframes moverIzq {
+    
+    to {
+        left: 0px; /* Punto final */
+    }
+}
+/* .finDelJuego{
+    position: absolute;
+    background-color: rgb(43, 40, 40);
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+.puntajeFinal{
+    position: absolute;
+    top: 100px;
+    left: 300px;
+    color: white;
+    border: 2px solid white ;
+    border-radius: 20px;
+    font-size: 25px;
+    padding: 10px;
+}
+
+.tiempoFinal{
+    position: absolute;
+    top: 180px;
+    left: 300px;
+    color: white;
+    border: 2px solid white ;
+    border-radius: 20px;
+    font-size: 25px;
+    padding: 10px;
+}
+
+.reintentar{
+    cursor: pointer;
+    color: white;
+    background-color: rgb(43, 40, 40);
+    position: absolute;
+    top: 320px;
+    left: 300px;
+    font-size: 25px;
+    padding: 10px;
+    border: 3px solid white;
+    border-radius: 15px;
+}
+.volverInicio{
+    cursor: pointer;
+    color: white;
+    font-size: 25px;
+    position: absolute;
+    top: 320px;
+    left: 500px;
+    background-color: rgb(43, 40, 40);
+    padding: 10px;
+    border: 3px solid white;
+    border-radius: 15px;
+}
+
+.enemigosMatados{
+    position: absolute;
+    top: 240px;
+    left: 300px;
+    color: white;
+    border: 2px solid white ;
+    border-radius: 20px;
+    font-size: 25px;
+    padding: 10px;
+} */
+.finDelJuego {
+    position: absolute;
+    background-color: rgba(43, 40, 40, 0.9);
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+.finDelJuego h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.puntajeFinal, .tiempoFinal, .enemigosMatados {
+    margin: 10px 0;
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+
+.reintentar, .volverInicio {
+    margin: 20px 10px;
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    color: white;
+    background-color: rgb(43, 40, 40);
+    border: 2px solid white;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.reintentar:hover, .volverInicio:hover {
+    background-color: white;
+    color: rgb(43, 40, 40);
+    transform: scale(1.05);
+}
+/*
+.pantallaInicio {
+    background-color: #2b2828;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    
+    flex-direction: column;
+    align-items: center;
+    
+    z-index: 2;
+    color: white;
+    font-family: 'Arial', sans-serif;
+}
+
+.bienvenidos, .superNave {
+    top :10px;
+    left: 50%;
+    position: absolute;
+    margin: 20px;
+    padding: 15px 30px;
+    border: 2px solid white;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 2rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translate(-50%);
+}
+
+.superNave {
+    top: 100px;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.botonIniciar {
+    position: absolute;
+    top : 250px;
+    left: 50%;
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    color: white;
+    background-color: #2b2828;
+    border: 2px solid white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    transform: translate(-50%);
+}
+
+.botonIniciar:hover {
+    background-color: white;
+    color: #2b2828;
+    
+}
+
+.instrucciones {
+    position: absolute;
+    top: 350px;
+    left: 50%;
+    transform: translate(-50%);
+    margin: 20px;
+    padding: 15px 30px;
+    border: 2px solid white;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 1.2rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+    width: 300px;
+}
+
+.instrucciones span {
+    display: block;
+    margin: 5px 0;
+}*/
+.pantallaInicio {
+    background-color: #2b2828;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.bienvenidos, .superNave {
+    position: relative;
+    margin: 20px;
+    padding: 15px 30px;
+    border: 2px solid white;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 2rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.superNave {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.botonIniciar {
+    margin-top: 30px;
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    color: white;
+    background-color: #2b2828;
+    border: 2px solid white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.botonIniciar:hover {
+    background-color: white;
+    color: #2b2828;
+    transform: scale(1.05);
+}
+
+/* Sección de Instrucciones */
+.instrucciones {
+    margin-top: 50px;
+    padding: 20px;
+    border: 2px solid white;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.6);
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-in-out;
+}
+
+.instrucciones h3 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #00e6e6;
+}
+
+.instrucciones .teclado {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.instrucciones .tecla {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 2px solid white;
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 1.2rem;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.instrucciones .tecla:hover {
+    transform: translateY(-5px);
+}
+
+/* Espaciadora */
+.instrucciones .espaciadora {
+    grid-column: 1 / span 3;
+    padding: 10px 40px;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
