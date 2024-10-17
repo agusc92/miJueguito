@@ -89,8 +89,8 @@ class Protagonista{
         this.prota.classList.remove('atacar','mover');
         this.prota.classList.add('morirProta');
     }
-    estaVivo(){
-        return this.vida>0;
+    estaMuerto(){
+        return this.vida<=0;
     }
     getVida(){
         return this.vida;

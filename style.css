@@ -433,8 +433,8 @@ body {
         z-index: 1;
         position: absolute;
         
-        transform: scaleX(-1) scale(2);
-        transition: left 2s ease;
+        transform: scaleX(-1) scale(1.3);
+        transition: left 2s ease , top 2s ease;
     
 }
 .jefeQuieto{
@@ -450,6 +450,76 @@ body {
         background-position: -1152px
     }
 }
-.jefeMovimiento{
+.jefeMover{
+    background: url("personajes/jefe/jefeMover.png");
+    animation: jefeMover .4s steps(5) infinite;
+}
+@keyframes jefeMover{
+    0% {
+        background-position: 0
+    }
 
+    100% {
+        background-position: -960px
+    }
+}
+.jefeMuerto{
+    background: url("personajes/jefe/jefeMuerto.png");
+    animation: jefeMuerto 4s steps(21) 1;
+}
+@keyframes jefeMuerto{
+    0% {
+        background-position: 0
+    }
+
+    100% {
+        background-position: -4032px
+    }
+}
+.ataque1{
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    
+    transition: left linear , top linear;
+    
+    transform: scale(1.1);
+    background: url("personajes/jefe/ataque1.png");
+}
+.proyectilExplosivo{
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    z-index: 2;
+    transition: left linear , top linear;
+    
+    transform: scale(0.8);
+    background: url("personajes/jefe/proyectilExplosivo.png");
+}
+.mensaje {
+    display: block; /* Para que ocupe toda la línea */
+    margin-top: 10px; /* Espacio arriba del mensaje */
+    font-size: 16px; /* Tamaño de fuente */
+    color: #fff; /* Color del texto */
+    text-align: center; /* Centrar el texto */
+}
+.botonSonido  {
+    width: 70px; 
+    height: 50px;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 20px; 
+    left: 20px;
+    cursor: pointer;
+    animation: vibrate 0.2s infinite; 
+    z-index: 2; 
+    position: absolute;
+}
+img{
+    width: 60px; 
+    height: 40px;
 }

@@ -74,9 +74,26 @@ class proyectilEnemigo extends Proyectil{
     
     return false;
     }
-    eliminarProyectil(){
-        let indice = this.proyectiles.indexOf(this)
-        this.proyectiles.splice(indice,1);
-        this.pantalla.removeChild(this.proyectil);
+    eliminarProyectil() {
+        let indice = this.proyectiles.indexOf(this);
+        
+    
+        this.proyectiles.splice(indice, 1);
+    
+        if (this.proyectil && this.proyectil.parentNode === this.pantalla) {
+            this.pantalla.removeChild(this.proyectil);
+            
+        } else {
+            
+        }
+    }
+    aparicion(aparicionX, aparicionY) {
+        // Calcula el centro del tirador
+        let centroX = this.tirador.left + (this.tirador.width / 2);
+        let centroY = this.tirador.top + (this.tirador.height / 2);
+    
+        // Posiciona el proyectil en el centro, aplicando los desplazamientos opcionales
+        this.proyectil.style.left = (centroX + aparicionX) + 'px';
+        this.proyectil.style.top = (centroY + aparicionY) + 'px';
     }
 }

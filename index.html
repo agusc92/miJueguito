@@ -10,6 +10,7 @@
     <div id="juego">
        
         <div id="finDelJuego">
+            <audio id="sonidoFinal" src="sonidos/final.mp3"></audio>
         <div  class="finDelJuego">
             <h2>Fin del Juego</h2>
             <div id="puntajeFinal" class="puntajeFinal"></div>
@@ -20,6 +21,8 @@
         </div>
         </div>
         <div id="contenedor" class="">
+            <audio id="sonidoJefe" src="sonidos/jefe.mp3"></audio>
+            <audio id="sonidoNivel" src="sonidos/nivel.mp3"></audio>
             <div id="cronometro" class="cronometro" ></div>
             <div id="vidas" class="cronometro vidas"></div>
             <div id="puntaje" class="cronometro puntaje"></div>
@@ -33,7 +36,10 @@
            
         
         <div id="pantallaInicio">
+            
+            <audio id="sonidoMenu" src="sonidos/menu.mp3"></audio>
             <div  class="pantallaInicio">
+                <button id="botonSonido" class="botonSonido"><img src="sonidos/parlante.png" alt=""></button>
                 <div class="bienvenidos">¡Bienvenidos a!</div>
                 <div class="superNave">Super Navecita</div>
                 <button id="iniciar" class="botonIniciar">Iniciar Partida</button>
@@ -51,7 +57,10 @@
                         <span class="tecla">D</span>
                     </div>
                     <div>
-                        <span class="tecla espaciadora">Espaciadora</span> para disparar
+                        <span class="tecla espaciadora">Espaciadora</span>  disparar
+                    </div>
+                    <div>
+                        <span class="mensaje">150 puntos para que aparezca el jefe.</span>
                     </div>
                 </div>
             </div>
@@ -59,12 +68,14 @@
     </div>
     
     <script src="aumentoPoder.js"></script>
-    <script src="personaje.js"></script>
+   
     <script src="Protagonista.js"></script>
     <script src="Enemigo.js"></script>
     <script src="Proyectil.js"></script>
     <script src="ProyectilEnemigo.js"></script>
     <script src="ProyectilProtagonista.js"></script>
+    <script src="Perdigon.js"></script>
+    <script src="ProyectilExplosivo.js"></script>
     <script src="Jefe.js"></script>
     <script src="main.js"></script>
 </body>

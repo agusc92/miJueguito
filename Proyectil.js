@@ -17,12 +17,14 @@ class Proyectil{
         //le agrego la clase que le da los estilos e introduzco el proyectil en el juego
         this.pantalla.appendChild(this.proyectil)
         this.proyectil.classList.add(apariencia);
-        this.proyectil.style.top =this.tirador.top +(this.tirador.height+aparicionY) + 'px';
-
-        this.proyectil.style.left =this.tirador.left +(this.tirador.width+aparicionX) + 'px';  
+          this.aparicion(aparicionX,aparicionY)
         this.comportamiento()
     }
+    aparicion(aparicionX,aparicionY){
+        this.proyectil.style.top =this.tirador.top +(this.tirador.height+aparicionY) + 'px';
 
+        this.proyectil.style.left =this.tirador.left +(this.tirador.width+aparicionX) + 'px';
+    }
     comportamiento(){ 
         //uso la posicion del tirador para posicionar el proyectil.     
         

@@ -35,38 +35,66 @@ const tiempoFinal= document.getElementById('tiempoFinal');
 const enemigosMatados = document.getElementById('enemigosMatados');
 const btnVolverInicio = document.getElementById('volverInicio');
 let contadorMatados=0;
-let jefe;
+let jefe=null;
 let proyectilesJefe;
+let jefeEnjuego = false;
+let intervaloEnemigo;
+let vidaEnemigo = 3;
+let vidaJefe = 35;
+let sonidoActual;
+let btnSonido = document.getElementById('botonSonido');
 // Manejar eventos de tecla presionada (keydown)
 btnIniciar.addEventListener('click',iniciarJuego)
 btnReintentar.addEventListener('click',()=>{iniciarJuego()})
 btnVolverInicio.addEventListener('click',()=>{volverInicio()})
 
+btnSonido.addEventListener('click',()=>{
+    reproducirSonidoMenu()
+})
 
-function iniciarJuego(){
-    asignarValoresIniciales()
-    document.addEventListener('keydown', manejarKeydown);
-    document.addEventListener('keyup',manejarKeyup);
+
+function iniciarJuego() {
+    reproducirSonidoNivel()
+    // Limpiar cualquier intervalo o animación anterior
+    if (cronometro) clearInterval(cronometro);
+    if (intervaloDisparo) clearInterval(intervaloDisparo);
+    if (intervaloEnemigo) clearInterval(intervaloEnemigo);  
+
+    if (loopJuego) cancelAnimationFrame(loopJuego);
     
+    // Remover eventos anteriores (si estaban configurados)
+    
+
+    // Asignar valores iniciales
+    asignarValoresIniciales();
+
+    // Volver a añadir los eventos de teclado
+    document.addEventListener('keydown', manejarKeydown);
+    document.addEventListener('keyup', manejarKeyup);
+
+    // Iniciar cronómetro del juego
     cronometro = setInterval(() => {
         tiempo++;
         elementoTiempo.innerText = `Tiempo: ${tiempo}s`;
-    
-        if(tiempo % 10 == 0){
-            dificultad ++;
-           
-        }
-    },1000)
-    intervaloEnemigo = setInterval(()=>{
-        coolddownEnemigo = true;
-        
-    },4000);
-    
-    
-    
-    loopJuego = requestAnimationFrame(gameLoop)
-}
 
+        if (tiempo % 15 == 0) {
+            dificultad++;
+        }
+    }, 1000);
+
+    // Intervalo para enemigos
+     intervaloEnemigo = setInterval(() => {
+        coolddownEnemigo = true;
+    }, 3000);
+
+    // **Reiniciar el intervalo de disparo correctamente**:
+    intervaloDisparo = setInterval(() => {
+        cooldownDisparo = false;
+    }, tiempoCooldown);
+
+    // Iniciar el loop del juego
+    loopJuego = requestAnimationFrame(gameLoop);
+}
     
 
 
@@ -80,7 +108,7 @@ function aparecerEnemigo(){
     if(coolddownEnemigo){
         let cont =dificultad;
     while(cont>0){
-        let enemigo = new Enemigo(proyectilesEnemigo,prota,'jefeQuieto','enemigoEstar','enemigoCorrer','muerteEnemigo');
+        let enemigo = new Enemigo(proyectilesEnemigo,prota,'enemigo','enemigoEstar','enemigoCorrer','muerteEnemigo',vidaEnemigo);
         enemigos.push(enemigo);
         cont--;
     }
@@ -93,7 +121,7 @@ function aparecerEnemigo(){
     
 }
 
-// setTimeout(()=>{iniciarJuego()},8000)
+
 function gameLoop(){//gameLoop//////////////////////////////////////////////////
     
     
@@ -106,43 +134,72 @@ function gameLoop(){//gameLoop//////////////////////////////////////////////////
     
     
     eliminarProyectilProta();
-    
+    if(!jefeEnjuego && !jefe){
+        aparecerEnemigo();
+        enemigoHuye();
+    }
     impactoProta()
     impactarProta();
-   // aparecerEnemigo();
-    //enemigoHuye();
-    jefe = new Jefe(proyectilesEnemigo,prota,'jefeQuieto','enemigoEstar','enemigoCorrer','muerteEnemigo')
+    
+   
+    
     crearAumentoPoder();
-    if (prota.estaVivo()) {
+    if (!prota.estaMuerto()) {
         // Ejecuta la función cada 16.67ms (60 veces por segundo) para lograr 60 FPS
-        setTimeout(gameLoop, 16.67); 
+        loopJuego = requestAnimationFrame(gameLoop);
     }else{
         finDelJuego();
     }
 }
 
-function impactoProta() {
-    proyectilesProta.forEach((pr,iPr) => {
-        enemigos.forEach((en, index) => {
-            if (pr.estado().left < en.estado().right &&
-                pr.estado().right > en.estado().left &&
-                pr.estado().top < en.estado().bottom &&
-                pr.estado().bottom > en.estado().top) {
+function colisionar(objeto1, objeto2) {
+    return (
+        objeto1.left < objeto2.right - (objeto2.width * 0.25) &&
+        objeto1.right > objeto2.left &&
+        objeto1.top < objeto2.bottom - (objeto2.height * 0.25) &&
+        objeto1.bottom > objeto2.top + (objeto2.height * 0.25)
+    );
+}
 
-                // Si hay colisión, eliminar el enemigo
-                en.recibirDanio(pr.getDanio())
+function impactoProta() {
+    proyectilesProta.forEach((pr, iPr) => {
+        enemigos.forEach((en, index) => {
+            if (colisionar(pr.estado(), en.estado())) {
+                console.log("Colisión con enemigo:", en);
+                en.recibirDanio(pr.getDanio());
                 
-                if(en.estaMuerto()){
-                    puntaje+=10;
-                elementoPuntaje.innerText = ''+puntaje;
-                    en.morir()
+                if (en.estaMuerto()) {
+                    puntaje += 10;
+                    elementoPuntaje.innerText = puntaje;
+                    if (!jefe && puntaje >= 150) {
+                        aparecerJefe();
+                    }
+                    en.morir();
                     eliminarEnemigo(index);
-                    contadorMatados +=1;
+                    contadorMatados += 1;
                 }
-                eliminarProyectil(iPr);
+                eliminarProyectil(iPr, proyectilesProta);
             }
         });
     });
+
+    // Comprobar colisión con el jefe
+    if (jefe) {
+        proyectilesProta.forEach((pr, iPr) => {
+            if (colisionar(pr.estado(), jefe.estado())) {
+                console.log("Colisión con jefe:", jefe);
+                jefe.recibirDanio(pr.getDanio());
+                
+                if (jefe.estaMuerto()) {
+                    // Eliminar jefe si está muerto
+                    jefe.morir();
+                    jefeEnjuego = false;  // Jefe ha sido derrotado
+                    finDelJuego();  // Fin del juego o lo que quieras hacer
+                }
+                eliminarProyectil(iPr, proyectilesProta);
+            }
+        });
+    }
 }
 
     
@@ -161,13 +218,13 @@ function eliminarEnemigo(index) {
         enemigos.splice(index, 1);
     }
 }
-function eliminarProyectil(index) {
-    let pr = proyectilesProta[index];
+function eliminarProyectil(index,arreglo) {
+    let pr = arreglo[index];
     if (pr && pr.obtenerElemento()) {
         if (pr.obtenerElemento().parentNode === pantalla) {
             pantalla.removeChild(pr.obtenerElemento());
         }
-        proyectilesProta.splice(index, 1);
+        arreglo.splice(index, 1);
     }
 }
 
@@ -193,6 +250,7 @@ function impactarProta(){
         if(pr.impacta()) 
             vidas.innerText = 'vidas: ' + prota.getVida();
     })
+   
 }
 
 function eliminarProyectilProta(){
@@ -208,10 +266,7 @@ function eliminarProyectilProta(){
                 // Si el proyectil ha salido del área visible (derecha) o está en el borde izquierdo
                 if (proyectilPosition >= pantalla.offsetWidth || proyectilPosition <= 0) {
                     // Elimina el proyectil del DOM y del array
-                    if (pr.obtenerElemento().parentNode === pantalla) {
-                        pantalla.removeChild(pr.obtenerElemento());
-                    }
-                    proyectilesProta.splice(i, 1);
+                   eliminarProyectil(i,proyectilesProta)
                 }
             }
         }
@@ -235,13 +290,13 @@ function crearAumentoPoder(){
 }
 
 function finDelJuego(){
+    reproducirSonidofinal();
     cancelAnimationFrame(loopJuego)
     clearInterval(cronometro);
     clearInterval(intervaloDisparo);
     clearInterval(intervaloEnemigo);
     
-    document.removeEventListener('keyup', manejarKeyup);
-    document.removeEventListener('keydown', manejarKeydown);
+    
     limpiarEscenario()
     setTimeout(()=>{
         
@@ -256,8 +311,24 @@ function finDelJuego(){
     
     
 }
+function aparecerJefe(){
+    if (jefe && jefe.estaMuerto() && jefeEnjuego) {
+        
+        jefeEnjuego = false;
+        jefe.morir();  // Ejecuta la animación de muerte
+        finDelJuego();
+    }
+
+    // Si el jefe aún no ha aparecido y el puntaje es suficiente, crearlo
+    if (!jefeEnjuego && !jefe) {  // Verificación clara de que no hay jefe activo
+        limpiarEscenario();
+        jefe = new Jefe(proyectilesEnemigo, prota, 'jefe', 'jefeQuieto', 'jefeMover', 'jefeMuerto', vidaJefe);
+        reproducirSonidoJefe();
+        jefeEnjuego = true;
+    }}
 
 function asignarValoresIniciales(){
+    
     pantalla.classList.remove('displayNone');
     pantallaDerrota.classList.add('displayNone');
     pantallaInicio.classList.add('displayNone');
@@ -270,6 +341,7 @@ function asignarValoresIniciales(){
     proyectilesEnemigo=[];
     proyectilesJefe = [];
     jefe = null;
+    jefeEnjuego=false;
     teclasPresionadas = {};
     coolddownEnemigo = false;
     cooldownDisparo=false;
@@ -292,14 +364,7 @@ function asignarValoresIniciales(){
     elementoPuntaje.innerText = '00';
     vidas.innerText = 'vidas: ' + prota.getVida()
     aumentoPoder = new AumentoPoder();
-    document.addEventListener('keydown', (e) => {
-    
-        
-        
-    });
-    intervaloDisparo = setInterval(()=>{
-        cooldownDisparo = false;
-    },tiempoCooldown)
+   
 }
 function derrota(){
     
@@ -315,22 +380,69 @@ function limpiarEscenario() {
 
     // Limpiar proyectiles enemigos
     proyectilesEnemigo.forEach(pr => {
-        
-            pr.proyectil.remove();
+        pr.eliminarProyectil();
+            
         
     });
     proyectilesEnemigo = [];
 
     // Limpiar enemigos
+    if(!jefe){
     enemigos.forEach(en => {
         if (en.obtenerElemento() && en.obtenerElemento().parentNode === pantalla) {
             pantalla.removeChild(en.obtenerElemento());
         }
     });
     enemigos = [];
+    }else{
+        setTimeout(()=>{pantalla.removeChild(jefe.obtenerElemento());
+            puntaje +=100;
+            enemigos = [];},3900)
+            
+        
+        
+    }
 }
 function volverInicio(){
+    reproducirSonidoMenu()
     pantallaDerrota.classList.add('displayNone');
     pantallaInicio.classList.remove('displayNone');
 }
-//Proyectil.js:36 Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node
+function reproducirSonidoMenu() {
+    if(sonidoActual)
+        sonidoActual.pause()
+    sonidoActual = document.getElementById('sonidoMenu');
+    sonidoActual.currentTime = 0; // Reinicia el sonido desde el principio
+    sonidoActual.volume = 0.5;
+    sonidoActual.play();
+    
+}
+function reproducirSonidoNivel() {
+    if(sonidoActual)
+        sonidoActual.pause()
+    sonidoActual = document.getElementById('sonidoNivel');
+    sonidoActual.currentTime = 0; // Reinicia el sonido desde el principio
+    sonidoActual.volume = 0.5;
+    sonidoActual.play();
+    
+}
+
+function reproducirSonidoJefe() {
+    if(sonidoActual)
+        sonidoActual.pause()
+    sonidoActual = document.getElementById('sonidoJefe');
+    sonidoActual.currentTime = 0; // Reinicia el sonido desde el principio
+    sonidoActual.volume = 0.5;
+    sonidoActual.play();
+    
+}
+function reproducirSonidofinal() {
+    if(sonidoActual)
+        sonidoActual.pause()
+    sonidoActual = document.getElementById('sonidoFinal');
+    sonidoActual.currentTime = 0; // Reinicia el sonido desde el principio
+    sonidoActual.volume = 0.5;
+    sonidoActual.play();
+    
+}
+

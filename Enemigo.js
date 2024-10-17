@@ -1,7 +1,7 @@
 class Enemigo{
     enemigo;
     prota;
-    vida = 3;
+    vida ;
     pantalla;
     dimencionesPantalla;
     cont=0;
@@ -13,7 +13,7 @@ class Enemigo{
     spryteAtaque;
     spryteMuerto;
     spryteEnemigo;
-    constructor(proyectiles,prota,spryteEnemigo,spryteQuieto,spryteMovimiento,spryteMuerto){
+    constructor(proyectiles,prota,spryteEnemigo,spryteQuieto,spryteMovimiento,spryteMuerto,vida){
         this.spryteEnemigo = spryteEnemigo;
         this.spryteQuieto=spryteQuieto;
         this.spryteMovimiento = spryteMovimiento;
@@ -23,7 +23,7 @@ class Enemigo{
         this.proyectiles = proyectiles;
         this.pantalla = document.getElementById('contenedor');
         this.dimencionesPantalla = this.pantalla.getBoundingClientRect()
-        
+        this.vida = vida;
         this.aparecer()
         //this.atacar();
     }
@@ -43,6 +43,7 @@ class Enemigo{
     }
     recibirDanio(daño){
         this.vida -=daño;
+        
     }
     estaMuerto(){
         if(this.vida<=0)
@@ -130,6 +131,10 @@ class Enemigo{
         clearTimeout(this.accionActiva);
         }
         this.enemigo.classList.remove(this.spryteMovimiento, this.spryteQuieto);
+    }
+
+    obtenerVidas(){
+        return this.vida
     }
     
 }
