@@ -218,11 +218,11 @@ function impactoProta() {
                 if (en.estaMuerto()) {
                     
                     // Incrementa el puntaje
-                    puntaje += 150;
+                    puntaje += 10;
                     elementoPuntaje.innerText = puntaje; // Actualiza la interfaz con el nuevo puntaje
                     
                     // Si el jefe no ha aparecido y se alcanza el puntaje requerido, se invoca al jefe
-                    if (!jefe && puntaje >= 1) {
+                    if (!jefe && puntaje >= 150) {
                         aparecerJefe();
                     }
                     
