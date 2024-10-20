@@ -497,11 +497,11 @@ body {
     background: url("personajes/jefe/proyectilExplosivo.png");
 }
 .mensaje {
-    display: block; /* Para que ocupe toda la línea */
-    margin-top: 10px; /* Espacio arriba del mensaje */
-    font-size: 16px; /* Tamaño de fuente */
-    color: #fff; /* Color del texto */
-    text-align: center; /* Centrar el texto */
+    display: block; 
+    margin-top: 10px; 
+    font-size: 16px; 
+    color: #fff; 
+    text-align: center; 
 }
 .botonSonido  {
     width: 70px; 

@@ -69,41 +69,60 @@ class Protagonista{
         return arProyectiles;
     }
 
-    recibirDanio(danio){
-        if(this.daniado){
-
-        }else{
+    recibirDanio(danio) {
+        // Verifica si el protagonista ya ha sido dañado recientemente
+        if (this.daniado) {
+            // Si ya está dañado, no hace nada
+        } else {
+            // Agrega la clase que indica que el protagonista ha recibido daño
             this.prota.classList.add('daniado');
-            this.daniado = true;
-            this.vida -=danio;
-        if(this.vida<=0){
-            this.morir();
+            this.daniado = true; // Marca que el protagonista está dañado
+            this.vida -= danio; // Reduce la vida del protagonista por el daño recibido
+    
+            // Si la vida del protagonista llega a cero o menos, ejecuta la función de morir
+            if (this.vida <= 0) {
+                this.morir();
+            }
+    
+            // Después de 1500ms (1.5 segundos), restaura el estado de "dañado" y quita la clase visual
+            setTimeout(() => {
+                this.daniado = false; // Restablece el estado de "dañado"
+                this.prota.classList.remove('daniado'); // Elimina la clase visual de daño
+            }, 1500);
         }
-        setTimeout(()=>{this.daniado = false;
-            this.prota.classList.remove('daniado');
-        },1500);
-        }
-        
     }
-    morir(){
-        this.prota.classList.remove('atacar','mover');
+    
+    morir() {
+        // Elimina las clases de ataque y movimiento, si las tiene
+        this.prota.classList.remove('atacar', 'mover');
+        // Agrega la clase que inicia la animación de muerte
         this.prota.classList.add('morirProta');
     }
-    estaMuerto(){
-        return this.vida<=0;
+    
+    estaMuerto() {
+        // Retorna verdadero si la vida del protagonista es cero o menor
+        return this.vida <= 0;
     }
-    getVida(){
+    
+    getVida() {
+        // Retorna la cantidad actual de vida del protagonista
         return this.vida;
     }
-
-    aumentarPoder(){
+    
+    aumentarPoder() {
+        // Agrega la clase que indica que el poder del protagonista ha aumentado
         this.prota.classList.add('poderAumentado');
-        this.poderAumentado = true;
-        setTimeout(()=>{this.poderAumentado = false
-            this.prota.classList.remove('poderAumentado');
-        },4000)
+        this.poderAumentado = true; // Marca que el poder ha aumentado
+    
+        // Después de 4000ms (4 segundos), restaura el estado de "poder aumentado" y quita la clase visual
+        setTimeout(() => {
+            this.poderAumentado = false; // Restablece el estado de "poder aumentado"
+            this.prota.classList.remove('poderAumentado'); // Elimina la clase visual de aumento de poder
+        }, 4000);
     }
-    obtenerElemento(){
+    
+    obtenerElemento() {
+        // Retorna el elemento del protagonista
         return this.prota;
     }
 }
